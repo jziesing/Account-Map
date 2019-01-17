@@ -21,21 +21,19 @@ const wrapperStyles = {
   maxWidth: 980,
   margin: "0 auto",
 };
-const colorScale = scaleLinear()
-  .domain([500000,40000000])
-  .range(["#FBE9E7","#FF5722"]);
+
 const markers = [
-  { markerOffset: -25, name: "Buenos Aires", coordinates: [-58.3816, -34.6037] },
-  { markerOffset: -25, name: "La Paz", coordinates: [-68.1193, -16.4897] },
-  { markerOffset: 35, name: "Brasilia", coordinates: [-47.8825, -15.7942] },
-  { markerOffset: 35, name: "Santiago", coordinates: [-70.6693, -33.4489] },
-  { markerOffset: 35, name: "Bogota", coordinates: [-74.0721, 4.7110] },
-  { markerOffset: 35, name: "Quito", coordinates: [-78.4678, -0.1807] },
-  { markerOffset: -25, name: "Georgetown", coordinates: [-58.1551, 6.8013] },
-  { markerOffset: -25, name: "Asuncion", coordinates: [-57.5759, -25.2637] },
-  { markerOffset: 35, name: "Paramaribo", coordinates: [-55.2038, 5.8520] },
-  { markerOffset: 35, name: "Montevideo", coordinates: [-56.1645, -34.9011] },
-  { markerOffset: -25, name: "Caracas", coordinates: [-66.9036, 10.4806] },
+    { markerOffset: -25, name: "Buenos Aires", coordinates: [-58.3816, -34.6037] },
+    { markerOffset: -25, name: "La Paz", coordinates: [-68.1193, -16.4897] },
+    { markerOffset: 35, name: "Brasilia", coordinates: [-47.8825, -15.7942] },
+    { markerOffset: 35, name: "Santiago", coordinates: [-70.6693, -33.4489] },
+    { markerOffset: 35, name: "Bogota", coordinates: [-74.0721, 4.7110] },
+    { markerOffset: 35, name: "Quito", coordinates: [-78.4678, -0.1807] },
+    { markerOffset: -25, name: "Georgetown", coordinates: [-58.1551, 6.8013] },
+    { markerOffset: -25, name: "Asuncion", coordinates: [-57.5759, -25.2637] },
+    { markerOffset: 35, name: "Paramaribo", coordinates: [-55.2038, 5.8520] },
+    { markerOffset: 35, name: "Montevideo", coordinates: [-56.1645, -34.9011] },
+    { markerOffset: -25, name: "Caracas", coordinates: [-66.9036, 10.4806] },
 ];
 
 
@@ -44,9 +42,15 @@ class AccountMap extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            data: null,
-            population: []
+            parentAccounts: [],
+            searchParentAccounts: [],
+            searchString: '',
+            selectedParentAccount: '',
+            selectedChildAccounts: []
         };
+        // methods
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleAccountClick = this.handleAccountClick.bind(this);
 	}
 
     componentWillMount() {
@@ -56,31 +60,80 @@ class AccountMap extends React.Component {
           		if (!error && response) {
                     console.log(JSON.parse(response.text));
 	              	this.setState({
-	                	data: response
+	                	parentAccounts: JSON.parse(response.text),
+                        searchParentAccounts: JSON.parse(response.text)
 	            	});
           		} else {
               		console.log(`Error fetching data`, error);
           		}
         	});
   	}
-    componentDidMount() {
-        csv("/static/population.csv")
-          .then(population => {
-            this.setState({ population })
+
+    handleSearchChange(e) {
+        this.setState({ searchString: e.target.value });
+    }
+
+    handleAccountClick(e) {
+        console.log(e.target.dataset.accid);
+
+        let fetchChildAccountsURL = '/fetch/account/' + e.target.dataset.accid + '/';
+        ajax.get(fetchChildAccountsURL)
+        	.end((error, response) => {
+          		if (!error && response) {
+                    console.log(JSON.parse(response.text));
+	              	// this.setState({
+	                // 	parentAccounts: JSON.parse(response.text),
+                    //     searchParentAccounts: JSON.parse(response.text)
+	            	// });
+          		} else {
+              		console.log(`Error fetching data`, error);
+          		}
+        	});
+    }
+
+    renderParentAccounts() {
+        return this.state.searchParentAccounts.map((acc, index) => {
+            return (
+                <a key={index} href="#" data-accid={acc.sfid} class="list-group-item" onClick={this.handleAccountClick} >{acc.name}</a>
+            );
         });
     }
 
 	render() {
 
-        const { population } = this.state
+
+        let accListMarkup;
+
+        let searchString = this.state.searchString.trim().toLowerCase();
+
+        if(searchString.length > 0){
+            this.state.searchParentAccounts = this.state.parentAccounts.filter(function(l){
+                return String(l.name).toLowerCase().match(searchString);
+            });
+        } else {
+            this.state.searchParentAccounts = this.state.parentAccounts;
+        }
+
+        accListMarkup = this.renderParentAccounts();
 
 		return (
 			<div>
 				<div class="row">
 	                <div class="text-center">
-	                    <h1>All Accounts</h1>
+	                    <h1>Parent Accounts</h1>
 	                </div>
 		    	</div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Search</span>
+                        <input type="text" class="form-control" value={this.state.searchString} onChange={this.handleSearchChange} placeholder="Parent Accounts" aria-describedby="basic-addon1" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="list-group parAccsListGroup">
+                        { accListMarkup }
+                    </div>
+                </div>
                 <div class="row">
                     <div style={wrapperStyles}>
                         <ComposableMap
@@ -99,9 +152,6 @@ class AccountMap extends React.Component {
                             <Geographies geography="/static/states.json" disableOptimization>
                               {(geographies, projection) =>
                                 geographies.map((geography, i) => {
-                                  const statePopulation = population.find(s =>
-                                    s.name === geography.properties.NAME_1
-                                  ) || {}
                                   return (
                                     <Geography
                                       key={`state-${geography.properties.ID_1}`}
@@ -134,6 +184,27 @@ class AccountMap extends React.Component {
                                 }
                               )}
                             </Geographies>
+                            <Markers>
+    <Marker
+       marker={{coordinates: [-122.658722, 45.512230]}}
+       style={{
+         default: { fill: "#FF5722" },
+         hover: { fill: "#FFFFFF" },
+         pressed: { fill: "#FF5722" },
+       }}
+    >
+       <circle
+          cx={0}
+          cy={0}
+          r={5}
+          style={{
+            stroke: "#FF5722",
+            strokeWidth: 3,
+            opacity: 0.9,
+          }}
+       />
+    </Marker>
+</Markers>
                           </ZoomableGroup>
                         </ComposableMap>
                       </div>

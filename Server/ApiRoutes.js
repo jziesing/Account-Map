@@ -19,8 +19,10 @@ let express = require('express'),
 // add account
 ApiRoutes.post("/new/account/", PubAddAccount.AddAccountPost);
 
-
+// get parent accounts
 ApiRoutes.get("/fetch/accounts/", PubFetchAccounts.FetchAccountsGet);
+// get child accounts
+ApiRoutes.get("/fetch/account/:parentAccountId", PubFetchAccounts.FetchChildAccountsGet);
 
 
 /*
