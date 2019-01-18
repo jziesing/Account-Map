@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node Server/Server.js",
-    "hstart": "DATABASE_URL=`heroku config:get DATABASE_URL -a account-map-stage` node Server/Server.js"
+    "start": "webpack && node Server/Server.js",
+    "hstart": "webpack && DATABASE_URL=`heroku config:get DATABASE_URL -a account-map-stage` node Server/Server.js"
   },
   "author": "",
   "license": "ISC",

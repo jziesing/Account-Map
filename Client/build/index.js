@@ -27221,7 +27221,7 @@
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/' },
-									'Account Map'
+									'Tap Room Map'
 								)
 							),
 							_react2.default.createElement(
@@ -27230,7 +27230,7 @@
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: 'new' },
-									'New Account'
+									'New Brewing Company'
 								)
 							)
 						);
@@ -27246,7 +27246,7 @@
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/' },
-									'Account Map'
+									'Tap Room Map'
 								)
 							),
 							_react2.default.createElement(
@@ -27255,7 +27255,7 @@
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: 'new' },
-									'New Account'
+									'New Brewing Company'
 								)
 							)
 						);
@@ -27283,7 +27283,7 @@
 						_react2.default.createElement(
 							'title',
 							null,
-							'Account Map'
+							'Tap Room Map'
 						)
 					),
 					_react2.default.createElement(
@@ -27313,7 +27313,7 @@
 									_react2.default.createElement(
 										_reactRouter.Link,
 										{ to: '/', activeClassName: 'navbar-brand' },
-										'Account Map'
+										'Tap Room Map'
 									)
 								),
 								_react2.default.createElement(
@@ -27386,7 +27386,7 @@
 	                    _react2.default.createElement(
 	                        "p",
 	                        { className: "text-muted" },
-	                        "Account Map - Jack Ziesing HEAT app"
+	                        "Tap Room Map - Jack Ziesing HEAT app"
 	                    )
 	                )
 	            );
@@ -27432,8 +27432,6 @@
 	  maxWidth: 980,
 	  margin: "0 auto"
 	};
-
-	var markers = [{ markerOffset: -10, name: "West Bend", coordinates: [-121.328501, 44.056374] }, { markerOffset: -10, name: "Portland", coordinates: [-122.685684, 45.525967] }];
 
 	var AccountMap = function (_React$Component) {
 	  _inherits(AccountMap, _React$Component);
@@ -27555,7 +27553,7 @@
 	            _react2.default.createElement(
 	              'h1',
 	              null,
-	              'Parent Accounts'
+	              'Tap Room Finder'
 	            )
 	          )
 	        ),
@@ -40529,7 +40527,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -40549,295 +40547,189 @@
 	var ajax = __webpack_require__(267);
 
 	var NewAccount = function (_React$Component) {
-	  _inherits(NewAccount, _React$Component);
+		_inherits(NewAccount, _React$Component);
 
-	  function NewAccount(props) {
-	    _classCallCheck(this, NewAccount);
+		function NewAccount(props) {
+			_classCallCheck(this, NewAccount);
 
-	    var _this = _possibleConstructorReturn(this, (NewAccount.__proto__ || Object.getPrototypeOf(NewAccount)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (NewAccount.__proto__ || Object.getPrototypeOf(NewAccount)).call(this, props));
 
-	    _this.state = {
-	      isLoading: false,
-	      name: '',
-	      street: '',
-	      city: '',
-	      state: '',
-	      zip: '',
-	      country: '',
-	      errormsg: '',
-	      successmsg: ''
-	    };
-	    _this.handleFormChange = _this.handleFormChange.bind(_this);
-	    _this.handleFormSubmit = _this.handleFormSubmit.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				isLoading: false,
+				name: '',
+				errormsg: '',
+				successmsg: ''
+			};
+			_this.handleFormChange = _this.handleFormChange.bind(_this);
+			_this.handleFormSubmit = _this.handleFormSubmit.bind(_this);
+			return _this;
+		}
 
-	  _createClass(NewAccount, [{
-	    key: 'handleFormChange',
-	    value: function handleFormChange(event) {
-	      console.log(this.state);
-	      switch (event.target.id) {
-	        case 'name':
-	          this.setState({ name: event.target.value });
-	          break;
-	        case 'street':
-	          this.setState({ street: event.target.value });
-	          break;
-	        case 'city':
-	          this.setState({ city: event.target.value });
-	          break;
-	        case 'state':
-	          this.setState({ state: event.target.value });
-	          break;
-	        case 'zip':
-	          this.setState({ zip: event.target.value });
-	          break;
-	        case 'country':
-	          this.setState({ country: event.target.value });
-	          break;
-	      }
-	    }
-	  }, {
-	    key: 'validateForm',
-	    value: function validateForm() {
-	      // if(this.validateEmail() && this.state.subject.text.length > 4 && this.state.message.text.length > 12) {
-	      // 	return true;
-	      // } else {
-	      // 	return false;
-	      // }
-	      return true;
-	    }
-	  }, {
-	    key: 'addErrors',
-	    value: function addErrors() {
-	      if (!this.validateEmail()) {
-	        this.setState({ email: { hasError: true, text: this.state.email.text } });
-	      }
-	      if (this.state.subject.text.length <= 4) {
-	        this.setState({ subject: { hasError: true, text: this.state.subject.text } });
-	      }
-	      if (this.state.message.text.length <= 12) {
-	        this.setState({ message: { hasError: true, text: this.state.message.text } });
-	      }
-	    }
-	  }, {
-	    key: 'handleFormSubmit',
-	    value: function handleFormSubmit(event) {
-	      var _this2 = this;
+		_createClass(NewAccount, [{
+			key: 'handleFormChange',
+			value: function handleFormChange(event) {
+				console.log(this.state);
+				switch (event.target.id) {
+					case 'name':
+						this.setState({ name: event.target.value });
+						break;
+				}
+			}
+		}, {
+			key: 'validateForm',
+			value: function validateForm() {
+				if (this.state.name.length > 1) {
+					this.setState({ errormsg: '' });
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}, {
+			key: 'addErrors',
+			value: function addErrors() {
+				this.setState({ errormsg: 'Please add the brewing company name.  The name must be longer than 1 character' });
+			}
+		}, {
+			key: 'handleFormSubmit',
+			value: function handleFormSubmit(event) {
+				var _this2 = this;
 
-	      event.preventDefault();
-	      this.setState({ isLoading: true });
-	      if (this.validateForm()) {
-	        var contactEndUrl = '/new/account/';
-	        ajax.post(contactEndUrl).set({ 'Content-Type': 'application/json' }).send(this.state).end(function (error, response) {
-	          _this2.setState({ isLoading: false });
-	          if (!error && response.status == 200) {
-	            console.log('success');
-	            console.log(response);
-	            _this2.setState({
-	              isLoading: false,
-	              name: '',
-	              street: '',
-	              city: '',
-	              state: '',
-	              zip: '',
-	              country: '',
-	              errormsg: ''
-	            });
-	          } else {
-	            console.log('fail');
-	            console.log(error);
-	            _this2.setState({
-	              isLoading: false,
-	              name: '',
-	              street: '',
-	              city: '',
-	              state: '',
-	              zip: '',
-	              country: '',
-	              errormsg: 'something went wrong, please try again'
-	            });
-	          }
-	        });
-	      } else {
-	        this.addErrors();
-	        this.setState({ isLoading: false });
-	      }
-	    }
-	  }, {
-	    key: 'msgMarkup',
-	    value: function msgMarkup() {
-	      if (this.state.errormsg != '') {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'alert alert-danger', role: 'alert' },
-	          this.state.errormsg
-	        );
-	      } else if (this.state.successmsg != '') {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'alert alert-success', role: 'alert' },
-	          this.state.errormsg
-	        );
-	      }
-	    }
-	  }, {
-	    key: 'markup',
-	    value: function markup() {
-	      if (this.state.isLoading) {
-	        return _react2.default.createElement(
-	          'form',
-	          { className: 'form-horizontal', action: '' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-sm-offset-4 col-sm-4' },
-	            _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin loadingCon' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-offset-2 col-sm-10' },
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit', className: 'btn btn-cSend disabled' },
-	                'Send'
-	              )
-	            )
-	          )
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'form',
-	          { className: 'form-horizontal', action: '', onSubmit: this.handleFormSubmit },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'Account Name'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'name', placeholder: 'account name', onChange: this.handleFormChange, value: this.state.name })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'Street'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('textarea', { className: 'form-control', rows: '3', id: 'street', placeholder: 'street', onChange: this.handleFormChange, value: this.state.street })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'City'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'city', placeholder: 'city', onChange: this.handleFormChange, value: this.state.city })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'State'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'state', placeholder: 'state', onChange: this.handleFormChange, value: this.state.state })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'Zip'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'zip', placeholder: 'zip', onChange: this.handleFormChange, value: this.state.zip })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'label',
-	              { htmlFor: 'message', className: 'col-sm-2 control-label' },
-	              'Country'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-10' },
-	              _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'country', placeholder: 'country', onChange: this.handleFormChange, value: this.state.country })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-offset-2 col-sm-10' },
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit', className: 'btn btn-cSend' },
-	                'Send'
-	              )
-	            )
-	          )
-	        );
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
+				event.preventDefault();
+				this.setState({ isLoading: true });
+				if (this.validateForm()) {
+					var contactEndUrl = '/new/account/';
+					ajax.post(contactEndUrl).set({ 'Content-Type': 'application/json' }).send(this.state).end(function (error, response) {
+						_this2.setState({ isLoading: false });
+						if (!error && response.status == 200) {
+							console.log('success');
+							console.log(response);
+							_this2.setState({
+								isLoading: false,
+								name: '',
+								successmsg: 'Success! Brewing company added.',
+								errormsg: ''
+							});
+						} else {
+							console.log('fail');
+							console.log(error);
+							_this2.setState({
+								isLoading: false,
+								name: '',
+								successmsg: '',
+								errormsg: 'something went wrong, please try again.'
+							});
+						}
+					});
+				} else {
+					this.addErrors();
+					this.setState({ isLoading: false });
+				}
+			}
+		}, {
+			key: 'msgMarkup',
+			value: function msgMarkup() {
+				if (this.state.errormsg != '') {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'alert alert-danger', role: 'alert' },
+						this.state.errormsg
+					);
+				} else if (this.state.successmsg != '') {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'alert alert-success', role: 'alert' },
+						this.state.successmsg
+					);
+				}
+			}
+		}, {
+			key: 'markup',
+			value: function markup() {
+				if (this.state.isLoading) {
+					return _react2.default.createElement(
+						'form',
+						{ className: 'form-horizontal', action: '' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'col-sm-offset-4 col-sm-4' },
+							_react2.default.createElement('i', { className: 'fa fa-spinner fa-spin loadingCon' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-sm-offset-2 col-sm-10' },
+								_react2.default.createElement(
+									'button',
+									{ type: 'submit', className: 'btn btn-cSend disabled' },
+									'Send'
+								)
+							)
+						)
+					);
+				} else {
+					return _react2.default.createElement(
+						'form',
+						{ className: 'form-horizontal', action: '', onSubmit: this.handleFormSubmit },
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'label',
+								{ htmlFor: 'message', className: 'col-sm-2 control-label' },
+								'Brewing Company Name'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-sm-10' },
+								_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'name', placeholder: 'account name', onChange: this.handleFormChange, value: this.state.name })
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-sm-offset-2 col-sm-10' },
+								_react2.default.createElement(
+									'button',
+									{ type: 'submit', className: 'btn btn-cSend' },
+									'Send'
+								)
+							)
+						)
+					);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
 
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'text-center' },
-	            _react2.default.createElement(
-	              'h1',
-	              null,
-	              'Add a new account'
-	            )
-	          )
-	        ),
-	        this.msgMarkup(),
-	        this.markup()
-	      );
-	    }
-	  }]);
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'text-center' },
+							_react2.default.createElement(
+								'h1',
+								null,
+								'Add a new brewing company'
+							)
+						)
+					),
+					this.msgMarkup(),
+					this.markup()
+				);
+			}
+		}]);
 
-	  return NewAccount;
+		return NewAccount;
 	}(_react2.default.Component);
 
 	exports.default = NewAccount;
