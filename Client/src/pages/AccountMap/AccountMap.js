@@ -7,11 +7,6 @@ import {
   Markers,
   Marker,
 } from "react-simple-maps";
-import ReactTooltip from "react-tooltip";
-
-
-import { scaleLinear } from "d3-scale";
-import { csv } from "d3-fetch";
 
 
 let ajax = require('superagent');
@@ -23,17 +18,8 @@ const wrapperStyles = {
 };
 
 const markers = [
-    { markerOffset: -25, name: "Buenos Aires", coordinates: [-58.3816, -34.6037] },
-    { markerOffset: -25, name: "La Paz", coordinates: [-68.1193, -16.4897] },
-    { markerOffset: 35, name: "Brasilia", coordinates: [-47.8825, -15.7942] },
-    { markerOffset: 35, name: "Santiago", coordinates: [-70.6693, -33.4489] },
-    { markerOffset: 35, name: "Bogota", coordinates: [-74.0721, 4.7110] },
-    { markerOffset: 35, name: "Quito", coordinates: [-78.4678, -0.1807] },
-    { markerOffset: -25, name: "Georgetown", coordinates: [-58.1551, 6.8013] },
-    { markerOffset: -25, name: "Asuncion", coordinates: [-57.5759, -25.2637] },
-    { markerOffset: 35, name: "Paramaribo", coordinates: [-55.2038, 5.8520] },
-    { markerOffset: 35, name: "Montevideo", coordinates: [-56.1645, -34.9011] },
-    { markerOffset: -25, name: "Caracas", coordinates: [-66.9036, 10.4806] },
+    { markerOffset: -15, name: "West Bend", coordinates: [-121.328501, 44.056374] },
+    { markerOffset: -15, name: "Portland", coordinates: [-122.685684, 45.525967] }
 ];
 
 
@@ -46,7 +32,8 @@ class AccountMap extends React.Component {
             searchParentAccounts: [],
             searchString: '',
             selectedParentAccount: '',
-            selectedChildAccounts: []
+            selectedChildAccounts: [],
+            currentMarkers: []
         };
         // methods
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -81,10 +68,22 @@ class AccountMap extends React.Component {
         	.end((error, response) => {
           		if (!error && response) {
                     console.log(JSON.parse(response.text));
-	              	// this.setState({
-	                // 	parentAccounts: JSON.parse(response.text),
-                    //     searchParentAccounts: JSON.parse(response.text)
-	            	// });
+                    let childAccResp = JSON.parse(response.text);
+                    let markersToAdd = [];
+                    childAccResp.map((dat, index) => {
+                        console.log(dat.shippinglongitude);
+                        markersToAdd.push({
+                            name: dat.name,
+                            coordinates: [dat.shippinglongitude, dat.shippinglatitude],
+                            markerOffset: -15
+                        });
+                        return dat;
+                    });
+                    console.log(markersToAdd);
+	              	this.setState({
+	                	selectedChildAccounts: childAccResp,
+                        currentMarkers: markersToAdd
+	            	});
           		} else {
               		console.log(`Error fetching data`, error);
           		}
@@ -185,26 +184,39 @@ class AccountMap extends React.Component {
                               )}
                             </Geographies>
                             <Markers>
-    <Marker
-       marker={{coordinates: [-122.658722, 45.512230]}}
-       style={{
-         default: { fill: "#FF5722" },
-         hover: { fill: "#FFFFFF" },
-         pressed: { fill: "#FF5722" },
-       }}
-    >
-       <circle
-          cx={0}
-          cy={0}
-          r={5}
-          style={{
-            stroke: "#FF5722",
-            strokeWidth: 3,
-            opacity: 0.9,
-          }}
-       />
-    </Marker>
-</Markers>
+                                {this.state.currentMarkers.map((marker, i) => (
+                                    <Marker
+                                      key={i}
+                                      marker={marker}
+                                      style={{
+                                        default: { fill: "#FF5722" },
+                                        hover: { fill: "#FFFFFF" },
+                                        pressed: { fill: "#FF5722" },
+                                      }}
+                                      >
+                                      <circle
+                                        cx={0}
+                                        cy={0}
+                                        r={5}
+                                        style={{
+                                          stroke: "#FF5722",
+                                          strokeWidth: 3,
+                                          opacity: 0.9,
+                                        }}
+                                      />
+                                      <text
+                                        textAnchor="middle"
+                                        y={marker.markerOffset}
+                                        style={{
+                                          fontFamily: "Roboto, sans-serif",
+                                          fill: "#607D8B",
+                                        }}
+                                        >
+                                        {marker.name}
+                                      </text>
+                                    </Marker>
+                                  ))}
+                            </Markers>
                           </ZoomableGroup>
                         </ComposableMap>
                       </div>

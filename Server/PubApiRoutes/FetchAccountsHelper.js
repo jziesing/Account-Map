@@ -45,7 +45,7 @@ class FetchAccountsHelper {
 
             currclient.connect();
 
-            currclient.query('SELECT Id, SFID, Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, ParentId FROM Salesforce.Account WHERE ParentId=$1;', [parentAccountId], (err, res) => {
+            currclient.query('SELECT Id, SFID, Name, ShippingStreet, ShippingCity, ShippingState, ShippingPostalCode, ShippingCountry, ShippingLatitude, ShippingLongitude, ParentId FROM Salesforce.Account WHERE ParentId=$1;', [parentAccountId], (err, res) => {
                 if (err){
                     reject();
                 }
