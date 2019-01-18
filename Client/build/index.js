@@ -27433,7 +27433,7 @@
 	  margin: "0 auto"
 	};
 
-	var markers = [{ markerOffset: -15, name: "West Bend", coordinates: [-121.328501, 44.056374] }, { markerOffset: -15, name: "Portland", coordinates: [-122.685684, 45.525967] }];
+	var markers = [{ markerOffset: -10, name: "West Bend", coordinates: [-121.328501, 44.056374] }, { markerOffset: -10, name: "Portland", coordinates: [-122.685684, 45.525967] }];
 
 	var AccountMap = function (_React$Component) {
 	  _inherits(AccountMap, _React$Component);
@@ -27498,7 +27498,7 @@
 	            markersToAdd.push({
 	              name: dat.name,
 	              coordinates: [dat.shippinglongitude, dat.shippinglatitude],
-	              markerOffset: -15
+	              markerOffset: -10
 	            });
 	            return dat;
 	          });
