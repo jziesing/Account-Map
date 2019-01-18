@@ -161,8 +161,8 @@ class AccountMap extends React.Component {
                                             outline: "none",
                                           },
                                           hover: {
-                                            fill: "#607D8B",
-                                            stroke: "#607D8B",
+                                            fill: "#79589f",
+                                            stroke: "#79589f",
                                             strokeWidth: 0.75,
                                             outline: "none",
                                           },
