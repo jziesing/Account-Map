@@ -114,7 +114,7 @@ class AccountMap extends React.Component {
 			<div>
 				<div class="row">
 	                <div class="text-center">
-	                    <h1>Tap Room Finder</h1>
+	                    <h1>Account Map</h1>
 	                </div>
 		    	</div>
                 <div class="row">
