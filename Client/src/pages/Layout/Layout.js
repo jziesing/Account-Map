@@ -20,8 +20,8 @@ class Layout extends React.Component {
 			case '/':
 				return (
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><Link to='/'>Tap Room Map</Link></li>
-						<li><Link to='new'>New Brewing Company</Link></li>
+						<li class="active"><Link to='/'>Account Map</Link></li>
+						<li><Link to='new'>New Account</Link></li>
 					</ul>
 				);
 				break;
@@ -29,8 +29,8 @@ class Layout extends React.Component {
 			case '/new':
 				return (
 					<ul class="nav navbar-nav navbar-right">
-						<li><Link to='/'>Tap Room Map</Link></li>
-						<li class="active"><Link to='new'>New Brewing Company</Link></li>
+						<li><Link to='/'>Account Map</Link></li>
+						<li class="active"><Link to='new'>New Account</Link></li>
 					</ul>
 				);
 				break;
@@ -50,7 +50,7 @@ class Layout extends React.Component {
     				<link href="/css/bootstrap.min.css" rel="stylesheet" />
     				<link href="/css/index.css" rel="stylesheet" />
     				<link href="/css/bstrapoverrides.css" rel="stylesheet" />
-	              	<title>Tap Room Map</title>
+	              	<title>Account Map</title>
 	          	</head>
 	          	<body>
 				    <nav class="navbar navbar-default navbar-fixed-top">
@@ -62,7 +62,7 @@ class Layout extends React.Component {
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 								</button>
-								<Link to='/' activeClassName="navbar-brand">Tap Room Map</Link>
+								<Link to='/' activeClassName="navbar-brand">Account Map</Link>
 							</div>
 							<div id="navbar" class="navbar-collapse collapse">
 								{ pageNavMarkup }
