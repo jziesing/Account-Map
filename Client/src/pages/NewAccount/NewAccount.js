@@ -34,7 +34,7 @@ class NewAccount extends React.Component {
 		}
 	}
 	addErrors() {
-		this.setState({errormsg: 'Please add the brewing company name.  The name must be longer than 1 character'});
+		this.setState({errormsg: 'Please add the Account name.  The name must be longer than 1 character'});
 	}
 	handleFormSubmit(event) {
         event.preventDefault();
@@ -52,7 +52,7 @@ class NewAccount extends React.Component {
 						this.setState({
                             isLoading: false,
                             name: '',
-							successmsg: 'Success! Brewing company added.',
+							successmsg: 'Success! Account added.',
                             errormsg: ''
 						});
                     } else {
@@ -104,7 +104,7 @@ class NewAccount extends React.Component {
 			return (
 				<form class="form-horizontal" action="" onSubmit={this.handleFormSubmit}>
                     <div class="form-group">
-                        <label for="message" class="col-sm-2 control-label">Brewing Company Name</label>
+                        <label for="message" class="col-sm-2 control-label">Account Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="name" placeholder="account name" onChange={this.handleFormChange} value={this.state.name} />
                         </div>
@@ -126,7 +126,7 @@ class NewAccount extends React.Component {
 			<div>
 				<div class="row">
 	                <div class="text-center">
-	                    <h1>Add a new brewing company</h1>
+	                    <h1>Add a new Account</h1>
 	                </div>
 		    	</div>
                 { this.msgMarkup() }
